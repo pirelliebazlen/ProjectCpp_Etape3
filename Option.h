@@ -27,8 +27,9 @@ namespace carconfig {
 			string getLabel() const;
 			float getPrice() const;
 			void display() const;
-			//Option operator=(Option);
-			//Option operator+(const Car &c);
+
+			Option operator--(int); // poste incrementation
+			Option& operator--();
 			
 	};
 }

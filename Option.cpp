@@ -136,4 +136,18 @@ ostream& operator<<(ostream& s, const Option& op)
 	return s;
 }
 
+Option Option::operator--(int)
+{
+	Option temp(*this);
+
+	this->price -= 50;
+
+	return temp;
+}
+Option& Option::operator--()
+{
+	this->price-=50;
+
+	return *this;
+}
 }

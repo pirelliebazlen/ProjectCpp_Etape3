@@ -41,6 +41,7 @@ namespace carconfig {
 			int operator<(const Car& c);
 			int operator>(const Car& c);
 			int operator==(const Car& c);
+			Option* operator[](int i);
 
 		
 

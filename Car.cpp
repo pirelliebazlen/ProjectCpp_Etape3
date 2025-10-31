@@ -290,12 +290,25 @@ ostream& operator<<(ostream &s, const Car& c)
 		{
 			s << c.options[i]->getCode() << endl;
 			s << c.options[i]->getLabel() << endl;
-			s << c.options[i]->getPrice() << endl;
+			s << c.options[i]->getPrice() <<endl;
 		}
 		
 	}
 
 	return s;
+}
+
+Option* Car::operator[](int i)
+{
+	switch(i)
+	{
+		case 0: return options[0];
+		case 1: return options[1];
+		case 2: return options[2];
+		case 3: return options[3];
+		case 4: return options[4];
+		default: return nullptr;
+	}
 }
 
 
