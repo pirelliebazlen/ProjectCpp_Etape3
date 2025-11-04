@@ -76,7 +76,6 @@ void Model::setName(const char *n){
   else
   {
     name=new char[strlen(n)+1];
-    //cout<< &name<<endl;
     strcpy(name, n);
   }
   
@@ -157,10 +156,10 @@ istream& operator >>(istream& s, Model& m )
   float baseP;
 
   name = new char[100];
+
   cout<<"Entrez le nom : ";
   //s >> name;
   s.getline(name, 100);
-  s.ignore(numeric_limits<streamsize>::max(), '\n');
   cout << "Entrez la puissance : ";
   s >> power;
   cout << "Entrez le choix du type de moteur (0=Essence, 1=Diesel, 2=Electric, 3=Hybride) : "; 

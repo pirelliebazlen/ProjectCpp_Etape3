@@ -114,10 +114,10 @@ istream& operator>>(istream& s, Option& op)
 
 	
 	cout << "entrez le code: ";
-	s >> code;
+	getline(s, code, '\n');
 	cout << "entrez le label: ";
-	s >> label;
-	s.ignore(numeric_limits<streamsize>::max(), '\n');
+	getline(s, label, '\n');
+	
 	do
 	{
 		cout<<"entrez le prix: " ;
