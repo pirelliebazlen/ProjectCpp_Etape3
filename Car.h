@@ -24,7 +24,7 @@ namespace carconfig {
 			~Car();
 
 			void setName(string n);
-			void setModel(const Model m);
+			void setModel(Model m);
 			string getName() const;
 			Model getModel() const;
 			

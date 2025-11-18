@@ -1,20 +1,19 @@
 #include "Car.h"
-#include "Model.h"
-#include "Option.h"
 #include <cstring>
-#define DEBUG
 using namespace std;
 
 namespace carconfig {
 Car::Car()
 {
 	#ifdef DEBUG
-		//cout<<">> Car : constructeur par defaut<<"<< endl;
+		cout<<">> Car : constructeur par defaut<<"<< endl;
 	#endif
-	name="";
+
+	setName("");
+
 	for(int i=0; i < 5; i++)
 	{
-		Car::options[i]= nullptr;
+		options[i]= nullptr;
 	}
 
 }
@@ -22,14 +21,14 @@ Car::Car()
 Car:: Car(string n, Model m)
 {
 	#ifdef DEBUG
-		//cout<< ">> Car : constructeur d'initialisation <<"<< endl;
+		cout<< ">> Car : constructeur d'initialisation <<"<< endl;
 	#endif
 	setName(n);
 	setModel(m);
 
 	for(int i=0; i < 5; i++)
 	{
-		Car::options[i]= nullptr;
+		options[i]= nullptr;
 	}
 	
 
@@ -38,8 +37,9 @@ Car:: Car(string n, Model m)
 Car:: Car(const Car &c)
 {
 	#ifdef DEBUG
-		//cout<<">> Car : constructeur de copie<<"<< endl;
+		cout<<">> Car : constructeur de copie<<"<< endl;
 	#endif
+
 	setName(c.getName());
 
 	setModel(c.getModel());
@@ -67,7 +67,7 @@ Car:: Car(const Car &c)
 Car:: ~Car()
 {
 	#ifdef DEBUG
-		//cout<<">> Car destructeur <<" <<endl;
+		cout<<">> Car destructeur <<" <<endl;
 	#endif
 
 	for(int i=0; i < 5; i++)
@@ -90,7 +90,7 @@ void Car::setName(string n)
 	
 }
 
-void Car::setModel(const Model m)
+void Car::setModel(Model m)
 {
 	
 	model.setName(m.getName());
@@ -115,15 +115,15 @@ Model Car::getModel() const
 
 void Car::display() const
 {
-	cout<<"Nom : ";
+	
 	if(name.size()!=0) 
-		cout << name << endl;
+		cout << "Nom : " << name << endl;
 	else
 		cout << "pas de nom" << endl;
 
 	model.display();
 
-	cout<< "Option:";
+	cout<< "Option : ";
 
 	int i=0;
 
@@ -147,7 +147,7 @@ void Car::addOption(const Option &option)
 	{
 		if(options[i]==nullptr){
 			options[i] = new Option(option);
-				verif=1;
+			verif=1;
 		}
 		i++;
 	}
@@ -201,12 +201,17 @@ float Car::getPrice()
 Car& Car::operator=(const Car& c)
 {
 
+	for(int i=0; i<5; i++){
+		delete options[i];
+		options[i]=nullptr;
+	}
+
 	setName(c.getName());
 	setModel(c.getModel());
 
-	for(int i; i < 5; i++)
+	for(int i=0; i < 5; i++)
 	{
-
+	
 		if(c.options[i]!=nullptr)
 		{
 			options[i]= new Option(*(c.options[i]));
@@ -216,40 +221,43 @@ Car& Car::operator=(const Car& c)
 			options[i]= nullptr;
 		}
 	}
+
 	return (*this);
 }
 
 Car Car::operator+(const Option &option)
 {
-	Car *newObject= new Car(*this); 
+	Car newObject(*this); 
 
-	newObject->addOption(option);
+	newObject.addOption(option);
 
-	return *newObject;
+	return newObject;
 }
 
 
 Car Car::operator-(string option)
 {
-	removeOption(option);
-	return (*this);
+	Car newCar(*this);
+
+	newCar.removeOption(option);
+	return newCar;
 }
 
 Car Car::operator-(const Option& op)
 {
-	Car *newCar = new Car(*this);
-	newCar->removeOption(op.getCode());
+	Car newCar(*this);
+	newCar.removeOption(op.getCode());
 
-	return *newCar;
+	return newCar;
 }
 
-Car operator+(const Option &op , const Car &c)
+Car operator+(const Option &op ,const Car &c)
 {
-	Car *newObject = new Car(c);
+	Car newObject(c);
 
-	newObject->addOption(op);
+	newObject.addOption(op);
 
-	return *newObject;
+	return newObject;
 }
 
 int Car::operator<(const Car& c)
@@ -273,11 +281,12 @@ int Car::operator==(const Car& c)
 
 int Car::verification(const Car& c)
 {
-	Car *newObjt= new Car(*this);
-	Car *newObjt1= new Car(c);
-	if(newObjt->getPrice()< newObjt1->getPrice()) return -1;
-	if(newObjt->getPrice()> newObjt1->getPrice()) return 1;
-	if(newObjt->getPrice()== newObjt1->getPrice()) return 0;
+	Car newObjt(*this);
+	Car newObjt1(c);
+	if(newObjt.getPrice()< newObjt1.getPrice()) return -1;
+	if(newObjt.getPrice()> newObjt1.getPrice()) return 1;
+	if(newObjt.getPrice()== newObjt1.getPrice()) return 0;
+	return 2;
 }
 
 ostream& operator<<(ostream &s, const Car& c)

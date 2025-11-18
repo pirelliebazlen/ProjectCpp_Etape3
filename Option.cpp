@@ -1,5 +1,4 @@
 #include "Option.h"
-#define DEBUG
 #include <cstring>
 #include <limits>
 
@@ -10,28 +9,28 @@ namespace carconfig {
 Option::Option()
 {
 	#ifdef DEBUG
-		//cout<< ">> Contructeur par defaut  <<" << endl;
-	#endif
-	//setCode("code");
-	
-	//setLabel("label");
-	setPrice(0.0);
-}
-Option::Option(string cod, string lab, float p)
-{
-	#ifdef DEBUG
-		//cout<<">> Constructeur d'initialisation <<"<<endl;
+		cout<< ">> Contructeur par defaut  <<" << endl;
 	#endif
 
-	setCode(cod);
-	setLabel(lab);
+	setCode("");
+	setLabel("");
+	setPrice(0.0);
+}
+Option::Option(string c, string l, float p)
+{
+	#ifdef DEBUG
+		cout<<">> Constructeur d'initialisation <<"<<endl;
+	#endif
+
+	setCode(c);
+	setLabel(l);
 	setPrice(p);
 
 }
 Option::Option(const Option &o)
 {
 	#ifdef DEBUG
-	//cout <<">> Constructeur de copie <<"<<endl;
+		cout <<">> Constructeur de copie <<"<<endl;
 	#endif
 
 	setCode(o.getCode());
@@ -47,8 +46,9 @@ Option::Option(const Option &o)
 Option::~Option()
 {
 	#ifdef DEBUG
-		//cout<< ">> Destructeur d'option << " << endl;
+		cout<< ">> Destructeur d'option << " << endl;
 	#endif
+	
 }
 
 //*****************************************************************************************
@@ -67,7 +67,7 @@ void Option::setLabel(string l)
 
 void Option::setPrice(float p)
 {
-	if(p < 0) return;
+	if(p < 0.0) return;
 	price = p;
 }
 
@@ -90,19 +90,19 @@ float Option::getPrice() const
 
 void Option::display() const
 {
-	cout << "code : ";
+	
 	if(code!="")
-		cout << code << endl;
+		cout << "Code : " << code << endl;
 	else
 		cout << "pas de code"<< endl;
 
-	cout << "label : ";
+	
 	if(label!="")
-		cout << label << endl;
+		cout << "Label : " << label << endl;
 	else
 		cout << "pas de label"<< endl;
-	cout << "prix :";
-	cout << price << endl;
+	
+	cout << "Prix : " << price << endl;
 }
 
 istream& operator>>(istream& s, Option& op)
@@ -131,7 +131,7 @@ istream& operator>>(istream& s, Option& op)
 }
 ostream& operator<<(ostream& s, const Option& op)
 {
-	s << op.getCode()<<endl << op.getLabel() << endl << op.getPrice() << endl;
+	s << "Code : " << op.getCode()<<endl << "Label : " << op.getLabel() << endl << "Prix : " << op.getPrice() << endl;
 
 	return s;
 }

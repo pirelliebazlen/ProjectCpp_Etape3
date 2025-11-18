@@ -1,7 +1,6 @@
 #include "Model.h"
 #include <cstring> 
 #include <limits>
-#define DEBUG
 using namespace std;
 
 namespace carconfig {
@@ -9,7 +8,7 @@ namespace carconfig {
 Model::Model()
 {
   #ifdef DEBUG
-    //std::cout << "On est dans le constructeur par défaut (Model)" << std::endl;
+      cout << "On est dans le constructeur par défaut (Model)" << std::endl;
   #endif
   name=NULL;
   setName("Nom");
@@ -21,8 +20,9 @@ Model::Model()
 Model::Model(const  char*n, int p, Engine e, float bp)
 {
   #ifdef DEBUG
-    //std::cout << "On est dans le constructeur d'initialisation (Model)" << std::endl;
+      cout << "On est dans le constructeur d'initialisation (Model)" << std::endl;
   #endif
+
   name=NULL;
   setName(n);
   setPower(p);
@@ -33,12 +33,12 @@ Model::Model(const  char*n, int p, Engine e, float bp)
 
 Model::Model(const Model &m){
 
-    #ifdef DEBUG
-      //std::cout << ">>> On est dans le constructeur de copie (Model)" << std::endl;
-    #endif
-    name=NULL;
 
-    
+    #ifdef DEBUG
+        cout << ">>> On est dans le constructeur de copie (Model)" << std::endl;
+    #endif
+
+    name=NULL;
     setName(m.getName());
     setPower(m.getPower());
     setEngine(m.getEngine());
@@ -51,11 +51,9 @@ Model::Model(const Model &m){
 Model::~Model()
 {
     #ifdef DEBUG
-      //std::cout << "On est dans le destructeur (Model)" << std::endl;
+        cout << "On est dans le destructeur (Model)" << std::endl;
     #endif
-    
-    //std::cout << "On est dans le destructeur (Model)" << &name << std::endl;    //pour afficher le pointeur de model
-    if(name !=NULL) delete name;
+    if(name !=NULL) delete[] name;
 }
 
 
@@ -70,14 +68,10 @@ void Model::setName(const char *n){
   if (name!=NULL)
   {
     delete [] name; 
+  }
     name=new char[strlen(n)+1];
     strcpy(name, n);
-  }
-  else
-  {
-    name=new char[strlen(n)+1];
-    strcpy(name, n);
-  }
+  
   
 }
 
@@ -150,15 +144,12 @@ void Model::display() const
 
 istream& operator >>(istream& s, Model& m )
 {
-  char * name;
+  char name[100];
   int power;
   int eng;
   float baseP;
 
-  name = new char[100];
-
   cout<<"Entrez le nom : ";
-  //s >> name;
   s.getline(name, 100);
   cout << "Entrez la puissance : ";
   s >> power;
@@ -169,7 +160,7 @@ istream& operator >>(istream& s, Model& m )
 
   m.setName(name);
   m.setPower(power);
-  m.setEngine(static_cast<Engine>(eng));
+  m.setEngine((Engine) eng);
   m.setBasePrice(baseP); 
 
   return s;
@@ -179,8 +170,9 @@ istream& operator >>(istream& s, Model& m )
 ostream& operator<<(ostream& s, const Model& m)
 {
   s << "Model: ";
-  s <<m.getName() << endl << m.getPower() << endl;
+  s << "Nom : " << m.getName() << endl << "Puissance :" << m.getPower() << endl;
 
+  s << "Engin :   ";
   switch(m.getEngine())
   {
     case Engine::Petrol: s<< "Essence " << endl; break;
@@ -188,7 +180,7 @@ ostream& operator<<(ostream& s, const Model& m)
     case Engine:: Electric: s <<"Electrique "<< endl; break;
     case Engine::Hybrid: s << "Hybride: " << endl; break;
   }
-  s << m.getBasePrice() <<endl;
+  s << "Prix : " << m.getBasePrice() <<endl;
   
   return s;
 
